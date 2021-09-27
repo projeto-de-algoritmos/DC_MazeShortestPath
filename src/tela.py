@@ -31,7 +31,6 @@ BLACK = (0, 0, 0)
 PURPLE = (255, 0, 255)
 YELLOW = (255,255,0)
 
-
 w=20
 
 # build the grid
@@ -110,6 +109,36 @@ def colright(y, x, color):
     pygame.display.update()
     #time.sleep(2)
 
+def upr(y, x):
+    x=20*(x+1)
+    y=20*(y+1)
+    pygame.draw.rect(tela, GREEN, (x , y - 19 , 20, 20), 0)        
+    pygame.display.update()                                              
+    #time.sleep(2)
+
+def downr(y, x):   
+    x=20*(x+1)
+    y=20*(y+1)
+    pygame.draw.rect(tela, GREEN, (x , y , 20, 20), 0)
+    pygame.display.update()
+    #time.sleep(2)
+
+
+def leftr(y, x):
+    x=20*(x+1)
+    y=20*(y+1)
+    pygame.draw.rect(tela, GREEN, (x - 19 , y , 20, 20), 0)
+    pygame.display.update()
+    #time.sleep(2)
+
+
+def rightr(y, x):
+    x=20*(x+1)
+    y=20*(y+1)
+    pygame.draw.rect(tela, GREEN, (x , y , 20, 20), 0)
+    pygame.display.update()
+    #time.sleep(2)
+
 #Random DFS
 
 G = nx.grid_2d_graph(20,20)
@@ -171,6 +200,25 @@ def moveCellColor(vertex, nextVertex, color):
         else:
             time.sleep(.05)
             colup(x, y, color)
+
+def moveCellRetreat(vertex, nextVertex):
+    (x, y) = vertex
+    (x2, y2) = nextVertex
+
+    if x == x2:
+        if y < y2:
+            time.sleep(.05)
+            rightr(x, y)
+        else:
+            time.sleep(.05)
+            leftr(x, y)
+    else:
+        if x < x2:
+            time.sleep(.05)
+            downr(x, y)
+        else:
+            time.sleep(.05)
+            upr(x, y)
 
 #Instead of iterating through the neigbors it chooses one randomly
 def randomDFS(vertex):
@@ -241,51 +289,59 @@ def DCShortestPath(N, xo, yo, xd, yd, xf, yf, contr, distance=0, curCol = RED):
     print(yd)
     print("contr")
     print(contr)
-    if xd > 19 or yd > 19:
+    if xd > xf or yd > yf:
         return 400
     
     if xd < 0 or yd < 0:
         return 400
 
-    if xo > 19 or yo > 19:
+    if xo > xf or yo > yf:
         return 400
     
     if xo < 0 or yo < 0:
         return 400
     
-    
-    
     if (xo != xd or yo != yd) and GMST.edges[(xo, yo),(xd, yd)]['weight'] == 0:
+        #moveCellRetreat((xd, yd), (xo, yo))
         return 400
 
     else:
         if xd == 19 and yd == 19:
-            
-            moveCellColor((xo, yo), (xd, yd), curCol)
             print("SAD")
             print(distance)
             print("SAD")
+             
             return distance
 
         if contr == -1:
             return min(DCShortestPath(N, xd, yd, xd+1, yd, xf, yf, 0, distance +1, curCol), DCShortestPath(N, xd, yd, xd, yd+1, xf, yf, 1,distance +1, curCol), DCShortestPath(N, xd, yd, xd-1, yd, xf, yf, 2,distance +1, BLACK), DCShortestPath(N, xd, yd, xd, yd-1, xf, yf, 3,distance +1, PURPLE))    
         
         if contr == 0:
-            moveCellColor((xo, yo), (xd, yd), curCol)
-            return min(DCShortestPath(N, xd, yd, xd+1, yd, xf, yf, 0, distance +1, curCol), DCShortestPath(N, xd, yd, xd, yd+1, xf, yf, 1,distance +1, curCol), DCShortestPath(N, xd, yd, xd, yd-1, xf, yf, 3,distance +1, curCol))    
+            moveCellColor( (xd, yd),(xo, yo), curCol)
+            zmark=min(DCShortestPath(N, xd, yd, xd+1, yd, xf, yf, 0, distance +1, curCol), DCShortestPath(N, xd, yd, xd, yd+1, xf, yf, 1,distance +1, curCol), DCShortestPath(N, xd, yd, xd, yd-1, xf, yf, 3,distance +1, curCol))
+            if zmark != None and zmark <400:
+                moveCellColor((xd, yd),(xo, yo),  BLUE)
+            return zmark   
 
         if contr == 1:
             moveCellColor((xo, yo), (xd, yd), curCol)
-            return min(DCShortestPath(N, xd, yd, xd+1, yd, xf, yf, 0, distance +1, curCol), DCShortestPath(N, xd, yd, xd, yd+1, xf, yf, 1,distance +1, curCol), DCShortestPath(N, xd, yd, xd-1, yd, xf, yf, 2,distance +1, curCol))    
-          
+            onemark =min(DCShortestPath(N, xd, yd, xd+1, yd, xf, yf, 0, distance +1, curCol), DCShortestPath(N, xd, yd, xd, yd+1, xf, yf, 1,distance +1, curCol), DCShortestPath(N, xd, yd, xd-1, yd, xf, yf, 2,distance +1, curCol))
+            if onemark != None and onemark <400:
+                moveCellColor((xd, yd),(xo, yo),  BLUE)
+            return onemark
         if contr == 2:
             moveCellColor((xo, yo), (xd, yd), curCol)
-            return min(DCShortestPath(N, xd, yd, xd, yd+1, xf, yf, 1,distance +1, curCol), DCShortestPath(N, xd, yd, xd-1, yd, xf, yf, 2,distance +1, curCol), DCShortestPath(N, xd, yd, xd, yd-1, xf, yf, 3,distance +1, curCol))    
+            twomark = min(DCShortestPath(N, xd, yd, xd, yd+1, xf, yf, 1,distance +1, curCol), DCShortestPath(N, xd, yd, xd-1, yd, xf, yf, 2,distance +1, curCol), DCShortestPath(N, xd, yd, xd, yd-1, xf, yf, 3,distance +1, curCol))
+            if twomark != None and twomark <400:
+                moveCellColor((xd, yd),(xo, yo),  BLUE)
+            return twomark
 
         if contr == 3:
             moveCellColor((xo, yo), (xd, yd), curCol)
-            return min(DCShortestPath(N, xd, yd, xd+1, yd, xf, yf, 0, distance +1, curCol), DCShortestPath(N, xd, yd, xd-1, yd, xf, yf, 2,distance +1, curCol), DCShortestPath(N, xd, yd, xd, yd-1, xf, yf, 3,distance +1, curCol))    
-
+            threemark = min(DCShortestPath(N, xd, yd, xd+1, yd, xf, yf, 0, distance +1, curCol), DCShortestPath(N, xd, yd, xd-1, yd, xf, yf, 2,distance +1, curCol), DCShortestPath(N, xd, yd, xd, yd-1, xf, yf, 3,distance +1, curCol))
+            if threemark != None and threemark <400:
+                moveCellColor((xd, yd),(xo, yo),  BLUE)
+            return threemark
 
 def createMaze():
     startVertex = (0, 0)
