@@ -25,6 +25,7 @@ pygame.display.set_caption ("MazegenPRIM")
 # Define colours
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0,)
+RED = (255, 0, 0)
 
 w=20
 
@@ -73,6 +74,36 @@ def right(y, x):
     pygame.display.update()
     #time.sleep(2)
 
+
+def redup(y, x):
+    x=20*(x+1)
+    y=20*(y+1)
+    pygame.draw.rect(tela, RED, (x + 1, y - 20 + 1, 19, 39), 0)        
+    pygame.display.update()                                              
+    #time.sleep(2)
+
+def reddown(y, x):   
+    x=20*(x+1)
+    y=20*(y+1)
+    pygame.draw.rect(tela, RED, (x +  1, y + 1, 19, 39), 0)
+    pygame.display.update()
+    #time.sleep(2)
+
+
+def redleft(y, x):
+    x=20*(x+1)
+    y=20*(y+1)
+    pygame.draw.rect(tela, RED, (x - 20 +1, y +1, 39, 19), 0)
+    pygame.display.update()
+    #time.sleep(2)
+
+
+def redright(y, x):
+    x=20*(x+1)
+    y=20*(y+1)
+    pygame.draw.rect(tela, RED, (x +1, y +1, 39, 19), 0)
+    pygame.display.update()
+    #time.sleep(2)
 
 #Random DFS
 
@@ -230,6 +261,7 @@ build_grid(40, 0, 20)
 #createMaze()
 randomEdgesWeight()
 Prim()
+print(DCShortestPath(20, 0, 0, 0, 0, 19, 19, -1, distance))
 
 sair = True
 
