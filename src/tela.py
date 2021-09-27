@@ -148,6 +148,25 @@ def moveCell(vertex, nextVertex):
             time.sleep(.05)
             up(x, y)
 
+def moveCellred(vertex, nextVertex):
+    (x, y) = vertex
+    (x2, y2) = nextVertex
+
+    if x == x2:
+        if y < y2:
+            time.sleep(.05)
+            redright(x, y)
+        else:
+            time.sleep(.05)
+            redleft(x, y)
+    else:
+        if x < x2:
+            time.sleep(.05)
+            reddown(x, y)
+        else:
+            time.sleep(.05)
+            redup(x, y)
+
 #Instead of iterating through the neigbors it chooses one randomly
 def randomDFS(vertex):
     G.nodes[vertex]['visited'] = 1
