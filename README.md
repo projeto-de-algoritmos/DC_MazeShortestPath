@@ -14,9 +14,11 @@
 O DCShortestPath é um software do paradigma de desing de algoritimos Dividir e Conquistar, que encontra o menor caminho entre o começo(0, 0) e o fim (19, 19) em um labirinto 20x20 gerado usando o algoritimo de Prim para gerar uma MST. Utilizamos uma evolução do segundo projeto para o desenvolvimento deste. 
 
 ## Screenshoots
-![Screenshot 1](https://user-images.githubusercontent.com/42779015/134972515-317b1341-0c0c-4eba-b5a5-b869fdc8391d.png)
-![Screenshot 2](https://user-images.githubusercontent.com/42779015/134972553-04dd35b2-348e-4994-9edb-0c4c19f8fe7c.png)
-![Screenshot 3](https://user-images.githubusercontent.com/42779015/134972657-f90d5a15-8230-467f-a424-acd4c73358ac.png)
+![Screenshot from 2021-09-27 16-29-08](https://user-images.githubusercontent.com/42779015/134972794-0797724d-67dc-40c8-bfd0-02d5e07eff56.png)
+
+![Screenshot from 2021-09-27 16-28-12](https://user-images.githubusercontent.com/42779015/134972803-32ade0dd-414e-4a5f-9044-a4af8c06933a.png)
+
+![Screenshot from 2021-09-27 16-27-14](https://user-images.githubusercontent.com/42779015/134972843-c5c9f0ad-38a0-4e7a-977a-7c59343b010a.png)
 
 
 ## Instalação 
