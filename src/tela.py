@@ -26,6 +26,11 @@ pygame.display.set_caption ("MazegenPRIM")
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0,)
 RED = (255, 0, 0)
+BLUE = (0, 0, 255)
+BLACK = (0, 0, 0)
+PURPLE = (255, 0, 255)
+YELLOW = (255,255,0)
+
 
 w=20
 
@@ -75,33 +80,33 @@ def right(y, x):
     #time.sleep(2)
 
 
-def redup(y, x):
+def colup(y, x, color):
     x=20*(x+1)
     y=20*(y+1)
-    pygame.draw.rect(tela, RED, (x + 1, y - 20 + 1, 19, 39), 0)        
+    pygame.draw.rect(tela, color, (x + 1, y - 20 + 1, 19, 39), 0)        
     pygame.display.update()                                              
     #time.sleep(2)
 
-def reddown(y, x):   
+def coldown(y, x, color):   
     x=20*(x+1)
     y=20*(y+1)
-    pygame.draw.rect(tela, RED, (x +  1, y + 1, 19, 39), 0)
+    pygame.draw.rect(tela, color, (x +  1, y + 1, 19, 39), 0)
     pygame.display.update()
     #time.sleep(2)
 
 
-def redleft(y, x):
+def colleft(y, x, color):
     x=20*(x+1)
     y=20*(y+1)
-    pygame.draw.rect(tela, RED, (x - 20 +1, y +1, 39, 19), 0)
+    pygame.draw.rect(tela, color, (x - 20 +1, y +1, 39, 19), 0)
     pygame.display.update()
     #time.sleep(2)
 
 
-def redright(y, x):
+def colright(y, x, color):
     x=20*(x+1)
     y=20*(y+1)
-    pygame.draw.rect(tela, RED, (x +1, y +1, 39, 19), 0)
+    pygame.draw.rect(tela, color, (x +1, y +1, 39, 19), 0)
     pygame.display.update()
     #time.sleep(2)
 
@@ -148,24 +153,24 @@ def moveCell(vertex, nextVertex):
             time.sleep(.05)
             up(x, y)
 
-def moveCellred(vertex, nextVertex):
+def moveCellColor(vertex, nextVertex, color):
     (x, y) = vertex
     (x2, y2) = nextVertex
 
     if x == x2:
         if y < y2:
             time.sleep(.05)
-            redright(x, y)
+            colright(x, y, color)
         else:
             time.sleep(.05)
-            redleft(x, y)
+            colleft(x, y, color)
     else:
         if x < x2:
             time.sleep(.05)
-            reddown(x, y)
+            coldown(x, y, color)
         else:
             time.sleep(.05)
-            redup(x, y)
+            colup(x, y, color)
 
 #Instead of iterating through the neigbors it chooses one randomly
 def randomDFS(vertex):
@@ -225,7 +230,7 @@ def Prim():
                             h[i] = (a[20*x + y], (x, y))      
                             break          
 #====================================================================================
-def DCShortestPath(N, xo, yo, xd, yd, xf, yf, contr, distance=0):
+def DCShortestPath(N, xo, yo, xd, yd, xf, yf, contr, distance=0, curCol = RED):
     print("xo")
     print(xo)
     print("yo")
@@ -248,32 +253,38 @@ def DCShortestPath(N, xo, yo, xd, yd, xf, yf, contr, distance=0):
     if xo < 0 or yo < 0:
         return 400
     
-    if xd == 19 and yd == 19:
-        print("SAD")
-        print(distance)
-        print("SAD")
-        return distance
+    
     
     if (xo != xd or yo != yd) and GMST.edges[(xo, yo),(xd, yd)]['weight'] == 0:
         return 400
 
     else:
-        moveCellred((xo, yo), (xd, yd))
+        if xd == 19 and yd == 19:
+            
+            moveCellColor((xo, yo), (xd, yd), curCol)
+            print("SAD")
+            print(distance)
+            print("SAD")
+            return distance
 
         if contr == -1:
-            return min(DCShortestPath(N, xd, yd, xd+1, yd, xf, yf, 0, distance +1), DCShortestPath(N, xd, yd, xd, yd+1, xf, yf, 1,distance +1), DCShortestPath(N, xd, yd, xd-1, yd, xf, yf, 2,distance +1), DCShortestPath(N, xd, yd, xd, yd-1, xf, yf, 3,distance +1))    
+            return min(DCShortestPath(N, xd, yd, xd+1, yd, xf, yf, 0, distance +1, curCol), DCShortestPath(N, xd, yd, xd, yd+1, xf, yf, 1,distance +1, curCol), DCShortestPath(N, xd, yd, xd-1, yd, xf, yf, 2,distance +1, BLACK), DCShortestPath(N, xd, yd, xd, yd-1, xf, yf, 3,distance +1, PURPLE))    
         
         if contr == 0:
-            return min(DCShortestPath(N, xd, yd, xd+1, yd, xf, yf, 0, distance +1), DCShortestPath(N, xd, yd, xd, yd+1, xf, yf, 1,distance +1), DCShortestPath(N, xd, yd, xd, yd-1, xf, yf, 3,distance +1))    
+            moveCellColor((xo, yo), (xd, yd), curCol)
+            return min(DCShortestPath(N, xd, yd, xd+1, yd, xf, yf, 0, distance +1, curCol), DCShortestPath(N, xd, yd, xd, yd+1, xf, yf, 1,distance +1, curCol), DCShortestPath(N, xd, yd, xd, yd-1, xf, yf, 3,distance +1, curCol))    
 
         if contr == 1:
-            return min(DCShortestPath(N, xd, yd, xd+1, yd, xf, yf, 0, distance +1), DCShortestPath(N, xd, yd, xd, yd+1, xf, yf, 1,distance +1), DCShortestPath(N, xd, yd, xd-1, yd, xf, yf, 2,distance +1))    
+            moveCellColor((xo, yo), (xd, yd), curCol)
+            return min(DCShortestPath(N, xd, yd, xd+1, yd, xf, yf, 0, distance +1, curCol), DCShortestPath(N, xd, yd, xd, yd+1, xf, yf, 1,distance +1, curCol), DCShortestPath(N, xd, yd, xd-1, yd, xf, yf, 2,distance +1, curCol))    
           
         if contr == 2:
-            return min(DCShortestPath(N, xd, yd, xd, yd+1, xf, yf, 1,distance +1), DCShortestPath(N, xd, yd, xd-1, yd, xf, yf, 2,distance +1), DCShortestPath(N, xd, yd, xd, yd-1, xf, yf, 3,distance +1))    
+            moveCellColor((xo, yo), (xd, yd), curCol)
+            return min(DCShortestPath(N, xd, yd, xd, yd+1, xf, yf, 1,distance +1, curCol), DCShortestPath(N, xd, yd, xd-1, yd, xf, yf, 2,distance +1, curCol), DCShortestPath(N, xd, yd, xd, yd-1, xf, yf, 3,distance +1, curCol))    
 
         if contr == 3:
-            return min(DCShortestPath(N, xd, yd, xd+1, yd, xf, yf, 0, distance +1), DCShortestPath(N, xd, yd, xd-1, yd, xf, yf, 2,distance +1), DCShortestPath(N, xd, yd, xd, yd-1, xf, yf, 3,distance +1))    
+            moveCellColor((xo, yo), (xd, yd), curCol)
+            return min(DCShortestPath(N, xd, yd, xd+1, yd, xf, yf, 0, distance +1, curCol), DCShortestPath(N, xd, yd, xd-1, yd, xf, yf, 2,distance +1, curCol), DCShortestPath(N, xd, yd, xd, yd-1, xf, yf, 3,distance +1, curCol))    
 
 
 def createMaze():
