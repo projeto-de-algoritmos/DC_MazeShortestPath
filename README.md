@@ -31,7 +31,7 @@ Ter python3 na maquina
 ")
 -- Clonar o repositorio
 -- Ativar o ambiente através de "source env/bin/activate"
--- Executar "tela.py" com o comando "python tela.py"
+-- Executar "tela.py" com o comando "python src/tela.py"
 
 ## Outros 
 ### Referências
