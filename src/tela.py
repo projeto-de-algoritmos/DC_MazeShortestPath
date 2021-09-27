@@ -175,6 +175,53 @@ def Prim():
                             h[i] = (a[20*x + y], (x, y))      
                             break          
 #====================================================================================
+def DCShortestPath(N, xo, yo, xd, yd, xf, yf, contr, distance=0):
+    print("xo")
+    print(xo)
+    print("yo")
+    print(yo)
+    print("xd")
+    print(xd)
+    print("yd")
+    print(yd)
+    print("contr")
+    print(contr)
+    if xd > 19 or yd > 19:
+        return 400
+    
+    if xd < 0 or yd < 0:
+        return 400
+
+    if xo > 19 or yo > 19:
+        return 400
+    
+    if xo < 0 or yo < 0:
+        return 400
+    
+    if xd == 19 and yd == 19:
+        return distance
+    
+    if (xo != xd or yo != yd) and GMST.edges[(xo, yo),(xd, yd)]['weight'] == 0:
+        return 400
+
+    else:
+
+        if contr == -1:
+            return min(DCShortestPath(N, xd, yd, xd+1, yd, xf, yf, 0, distance +1), DCShortestPath(N, xd, yd, xd, yd+1, xf, yf, 1,distance +1), DCShortestPath(N, xd, yd, xd-1, yd, xf, yf, 2,distance +1), DCShortestPath(N, xd, yd, xd, yd-1, xf, yf, 3,distance +1))    
+        
+        if contr == 0:
+            return min(DCShortestPath(N, xd, yd, xd+1, yd, xf, yf, 0, distance +1), DCShortestPath(N, xd, yd, xd, yd+1, xf, yf, 1,distance +1), DCShortestPath(N, xd, yd, xd, yd-1, xf, yf, 3,distance +1))    
+
+        if contr == 1:
+            return min(DCShortestPath(N, xd, yd, xd+1, yd, xf, yf, 0, distance +1), DCShortestPath(N, xd, yd, xd, yd+1, xf, yf, 1,distance +1), DCShortestPath(N, xd, yd, xd-1, yd, xf, yf, 2,distance +1))    
+          
+        if contr == 2:
+            return min(DCShortestPath(N, xd, yd, xd, yd+1, xf, yf, 1,distance +1), DCShortestPath(N, xd, yd, xd-1, yd, xf, yf, 2,distance +1), DCShortestPath(N, xd, yd, xd, yd-1, xf, yf, 3,distance +1))    
+
+        if contr == 3:
+            return min(DCShortestPath(N, xd, yd, xd+1, yd, xf, yf, 0, distance +1), DCShortestPath(N, xd, yd, xd-1, yd, xf, yf, 2,distance +1), DCShortestPath(N, xd, yd, xd, yd-1, xf, yf, 3,distance +1))    
+
+
 def createMaze():
     startVertex = (0, 0)
     randomDFS(startVertex)
