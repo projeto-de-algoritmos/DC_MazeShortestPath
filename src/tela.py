@@ -77,7 +77,11 @@ def right(y, x):
 #Random DFS
 
 G = nx.grid_2d_graph(20,20)
+#Graph of the mst(edge = 1 means it connects the two nodes)
+GMST = nx.grid_2d_graph(20,20)
 
+for (x, y) in GMST.edges():
+    GMST.edges[x, y]['weight'] = 0
 
 def randUnvisitedNeighbor(vertex):
     unvNeigh = []
@@ -156,6 +160,7 @@ def Prim():
                     lesser = a[20*x + y]
                     lesserxy = (x, y)
             moveCell(u[1], lesserxy)
+            GMST.edges[u[1], lesserxy]['weight'] = 1
             temp = []
 
         rep = 1
