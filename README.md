@@ -1,4 +1,4 @@
-# Grafos2_MazeGenPrim
+# DCShortestPath
 
 
 **Número da Lista**: 26<br>
@@ -11,7 +11,7 @@
 | 16/0152615  |  João Pedro Elias Moura |
 
 ## Sobre 
-O MazeShortestPath é um software do paradigma de desing de algoritimos Dividir e Conquistar, que encontra o menor caminho entre o começo(0, 0) e o fim (19, 19) em um labirinto 20x20 gerado usando o algoritimo de Prim para gerar uma MST. Utilizamos uma evolução do segundo projeto para o desenvolvimento deste. 
+O DCShortestPath é um software do paradigma de desing de algoritimos Dividir e Conquistar, que encontra o menor caminho entre o começo(0, 0) e o fim (19, 19) em um labirinto 20x20 gerado usando o algoritimo de Prim para gerar uma MST. Utilizamos uma evolução do segundo projeto para o desenvolvimento deste. 
 
 ## Screenshoots
 
