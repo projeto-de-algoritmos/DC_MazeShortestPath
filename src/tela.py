@@ -249,12 +249,16 @@ def DCShortestPath(N, xo, yo, xd, yd, xf, yf, contr, distance=0):
         return 400
     
     if xd == 19 and yd == 19:
+        print("SAD")
+        print(distance)
+        print("SAD")
         return distance
     
     if (xo != xd or yo != yd) and GMST.edges[(xo, yo),(xd, yd)]['weight'] == 0:
         return 400
 
     else:
+        moveCellred((xo, yo), (xd, yd))
 
         if contr == -1:
             return min(DCShortestPath(N, xd, yd, xd+1, yd, xf, yf, 0, distance +1), DCShortestPath(N, xd, yd, xd, yd+1, xf, yf, 1,distance +1), DCShortestPath(N, xd, yd, xd-1, yd, xf, yf, 2,distance +1), DCShortestPath(N, xd, yd, xd, yd-1, xf, yf, 3,distance +1))    
@@ -280,6 +284,8 @@ build_grid(40, 0, 20)
 #createMaze()
 randomEdgesWeight()
 Prim()
+
+distance = 0
 print(DCShortestPath(20, 0, 0, 0, 0, 19, 19, -1, distance))
 
 sair = True
