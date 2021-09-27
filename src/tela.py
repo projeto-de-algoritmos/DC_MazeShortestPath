@@ -19,7 +19,7 @@ HEIGHT = 600
 FPS = 30
 
 tela = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption ("MazegenPRIM")
+pygame.display.set_caption ("MazegenPRIM-DCShortestPath")
 
 
 # Define colours
@@ -109,36 +109,6 @@ def colright(y, x, color):
     pygame.display.update()
     #time.sleep(2)
 
-def upr(y, x):
-    x=20*(x+1)
-    y=20*(y+1)
-    pygame.draw.rect(tela, GREEN, (x , y - 19 , 20, 20), 0)        
-    pygame.display.update()                                              
-    #time.sleep(2)
-
-def downr(y, x):   
-    x=20*(x+1)
-    y=20*(y+1)
-    pygame.draw.rect(tela, GREEN, (x , y , 20, 20), 0)
-    pygame.display.update()
-    #time.sleep(2)
-
-
-def leftr(y, x):
-    x=20*(x+1)
-    y=20*(y+1)
-    pygame.draw.rect(tela, GREEN, (x - 19 , y , 20, 20), 0)
-    pygame.display.update()
-    #time.sleep(2)
-
-
-def rightr(y, x):
-    x=20*(x+1)
-    y=20*(y+1)
-    pygame.draw.rect(tela, GREEN, (x , y , 20, 20), 0)
-    pygame.display.update()
-    #time.sleep(2)
-
 #Random DFS
 
 G = nx.grid_2d_graph(20,20)
@@ -201,25 +171,6 @@ def moveCellColor(vertex, nextVertex, color):
             time.sleep(.05)
             colup(x, y, color)
 
-def moveCellRetreat(vertex, nextVertex):
-    (x, y) = vertex
-    (x2, y2) = nextVertex
-
-    if x == x2:
-        if y < y2:
-            time.sleep(.05)
-            rightr(x, y)
-        else:
-            time.sleep(.05)
-            leftr(x, y)
-    else:
-        if x < x2:
-            time.sleep(.05)
-            downr(x, y)
-        else:
-            time.sleep(.05)
-            upr(x, y)
-
 #Instead of iterating through the neigbors it chooses one randomly
 def randomDFS(vertex):
     G.nodes[vertex]['visited'] = 1
@@ -278,17 +229,8 @@ def Prim():
                             h[i] = (a[20*x + y], (x, y))      
                             break          
 #====================================================================================
+#ShortestPath Divide and Conquer
 def DCShortestPath(N, xo, yo, xd, yd, xf, yf, contr, distance=0, curCol = RED):
-    print("xo")
-    print(xo)
-    print("yo")
-    print(yo)
-    print("xd")
-    print(xd)
-    print("yd")
-    print(yd)
-    print("contr")
-    print(contr)
     if xd > xf or yd > yf:
         return 400
     
@@ -302,19 +244,15 @@ def DCShortestPath(N, xo, yo, xd, yd, xf, yf, contr, distance=0, curCol = RED):
         return 400
     
     if (xo != xd or yo != yd) and GMST.edges[(xo, yo),(xd, yd)]['weight'] == 0:
-        #moveCellRetreat((xd, yd), (xo, yo))
         return 400
 
     else:
         if xd == 19 and yd == 19:
-            print("SAD")
-            print(distance)
-            print("SAD")
-             
+            moveCellColor((xo, yo),(xd, yd),BLUE) 
             return distance
 
         if contr == -1:
-            return min(DCShortestPath(N, xd, yd, xd+1, yd, xf, yf, 0, distance +1, curCol), DCShortestPath(N, xd, yd, xd, yd+1, xf, yf, 1,distance +1, curCol), DCShortestPath(N, xd, yd, xd-1, yd, xf, yf, 2,distance +1, BLACK), DCShortestPath(N, xd, yd, xd, yd-1, xf, yf, 3,distance +1, PURPLE))    
+            return min(DCShortestPath(N, xd, yd, xd+1, yd, xf, yf, 0, distance +1, RED), DCShortestPath(N, xd, yd, xd, yd+1, xf, yf, 1,distance +1, RED), DCShortestPath(N, xd, yd, xd-1, yd, xf, yf, 2,distance +1, RED), DCShortestPath(N, xd, yd, xd, yd-1, xf, yf, 3,distance +1, RED))    
         
         if contr == 0:
             moveCellColor( (xd, yd),(xo, yo), curCol)
@@ -353,7 +291,17 @@ randomEdgesWeight()
 Prim()
 
 distance = 0
-print(DCShortestPath(20, 0, 0, 0, 0, 19, 19, -1, distance))
+short = DCShortestPath(20, 0, 0, 0, 0, 19, 19, -1, distance)
+print(short)
+
+pygame.font.init() # you have to call this at the start, 
+                   # if you want to use this module.
+myfont = pygame.font.SysFont('Comic Sans MS', 25)
+
+textsurface = myfont.render('O menor caminho entre 0,0 e 19,19 passa por ' + str(short) + ' Nós', 1, (255, 0, 255))
+
+tela.blit(textsurface,(2,500))
+
 
 sair = True
 
