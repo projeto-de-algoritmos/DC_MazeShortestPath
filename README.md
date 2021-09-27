@@ -1,8 +1,8 @@
 # Grafos2_MazeGenPrim
 
 
-**Número da Lista**: 2<br>
-**Conteúdo da Disciplina**: Grafos2<br>
+**Número da Lista**: 26<br>
+**Conteúdo da Disciplina**: DC<br>
 
 ## Alunos
 |Matrícula | Aluno |
@@ -11,12 +11,9 @@
 | 16/0152615  |  João Pedro Elias Moura |
 
 ## Sobre 
-O MazeGenPrim é um software que gera um labirinto baseando-se em MST e utilizando o algoritmo de Prim. Utilizamos uma evolução do primeiro projeto para desenvolvimento desse labirinto. 
+O MazeShortestPath é um software do paradigma de desing de algoritimos Dividir e Conquistar, que encontra o menor caminho entre o começo(0, 0) e o fim (19, 19) em um labirinto 20x20 gerado usando o algoritimo de Prim para gerar uma MST. Utilizamos uma evolução do segundo projeto para o desenvolvimento deste. 
 
 ## Screenshoots
-![canva-photo-editor](https://user-images.githubusercontent.com/69908186/130548277-e4835ccb-41f4-4875-abdb-e0be9e3bb128.png)
-
-![canva-photo-editor (1)](https://user-images.githubusercontent.com/69908186/130548480-171565b7-6acd-4d64-90f2-db94a51b6fb2.png)
 
 ## Instalação 
 **Linguagem**: Python<br>
@@ -32,7 +29,7 @@ Ter python3 na maquina
 
 ## Outros 
 ### Referências
-- <https://www.baeldung.com/cs/maze-generation>
+- <https://medium.com/@arjunatlast/solving-the-maze-problem-using-d-c-c4e1a9a09279>
 
 
 
